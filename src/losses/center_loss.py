@@ -1,7 +1,7 @@
 import os
 
 # MXNET_CPU_WORKER_NTHREADS must be greater than 1 for custom op to work on CPU
-#os.environ['MXNET_CPU_WORKER_NTHREADS'] = '2'
+# os.environ['MXNET_CPU_WORKER_NTHREADS'] = '2'
 import mxnet as mx
 
 
@@ -65,7 +65,7 @@ class CenterLoss(mx.operator.CustomOp):
         sum_ = aux[2]
 
         # back grad is just scale * ( x_i - c_yi)
-        grad_scale = float(self.scale/self.batch_size)
+        grad_scale = float(self.scale / self.batch_size)
         self.assign(in_grad[0], req[0], diff * grad_scale)
 
         # update the center
@@ -114,7 +114,7 @@ class CenterLossProp(mx.operator.CustomOpProp):
         center_shape = [self.num_class, diff_shape[1]]
 
         # computation buf
-        sum_shape = [diff_shape[1],]
+        sum_shape = [diff_shape[1], ]
 
         output_shape = [1, ]
         return [data_shape, label_shape], [output_shape], [diff_shape, center_shape, sum_shape]

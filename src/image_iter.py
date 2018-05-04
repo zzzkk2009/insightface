@@ -26,6 +26,9 @@ logger = logging.getLogger()
 
 
 class FaceImageIter(io.DataIter):
+    """
+    人脸图像迭代器类
+    """
     def __init__(self, batch_size, data_shape,
                  path_imgrec=None,
                  shuffle=False, aug_list=None, mean=None,
@@ -159,7 +162,7 @@ class FaceImageIter(io.DataIter):
     def mirror_aug(self, img):
         _rd = random.randint(0, 1)
         if _rd == 1:
-            for c in xrange(img.shape[2]):
+            for c in range(img.shape[2]):
                 img[:, :, c] = np.fliplr(img[:, :, c])
         return img
 

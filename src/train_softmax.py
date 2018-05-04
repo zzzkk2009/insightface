@@ -43,10 +43,11 @@ logger.setLevel(logging.INFO)
 
 args = None
 
-"""
-  精度测量类
-"""
+
 class AccMetric(mx.metric.EvalMetric):
+    """
+      精度测量类
+    """
     def __init__(self):
         self.axis = 1
         super(AccMetric, self).__init__(
@@ -71,10 +72,10 @@ class AccMetric(mx.metric.EvalMetric):
             self.num_inst += len(pred_label.flat)
 
 
-"""
-损失函数类
-"""
 class LossValueMetric(mx.metric.EvalMetric):
+    """
+    损失函数类
+    """
     def __init__(self):
         self.axis = 1
         super(LossValueMetric, self).__init__(
@@ -287,6 +288,8 @@ def get_symbol(args, arg_params, aux_params):
 
 
 def train_net(args):
+
+    # 判断使用gpu或cpu
     ctx = []
     cvd = os.environ['CUDA_VISIBLE_DEVICES'].strip()
     if len(cvd) > 0:
@@ -297,6 +300,8 @@ def train_net(args):
         print('use cpu')
     else:
         print('gpu num:', len(ctx))
+
+    # 处理参数
     prefix = args.prefix
     prefix_dir = os.path.dirname(prefix)
     if not os.path.exists(prefix_dir):
@@ -339,6 +344,7 @@ def train_net(args):
     base_lr = args.lr
     base_wd = args.wd
     base_mom = args.mom
+    # 获得模型定义
     if len(args.pretrained) == 0:
         arg_params = None
         aux_params = None
